@@ -10,7 +10,12 @@
 <title>KidQuest — Mission Control</title>
 <link rel="manifest" href="manifest.json"/>
 <link rel="apple-touch-icon" href="icon-192.png"/>
-<style>*{margin:0}body{background:#0C0A1E;min-height:100dvh}</style>
+<style>
+*{margin:0;box-sizing:border-box}
+html,body{background:#0C0A1E;min-height:100dvh;overflow-x:hidden;overscroll-behavior:none}
+#root{min-height:100dvh}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
 </head>
 <body>
 <div id="root"></div>

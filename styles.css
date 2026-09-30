@@ -1,0 +1,37 @@
+:root {
+  --bg: #0c0a1e;
+  --card: #1a1633;
+  --card2: #241e45;
+  --text: #f4f1ff;
+  --muted: #9b93c2;
+  --accent: #7c5cff;
+  --accent2: #ffd76a;
+  --ok: #3dd68c;
+  --danger: #ff6b8a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif; min-height: 100dvh; overflow-x: hidden; overscroll-behavior: none; }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+.app { max-width: 480px; margin: 0 auto; min-height: 100dvh; display: flex; flex-direction: column; padding: 16px 16px 88px; }
+h1 { font-size: 1.35rem; }
+.muted { color: var(--muted); font-size: .92rem; }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.grow { flex: 1; }
+.card { background: var(--card); border-radius: 18px; padding: 14px; margin: 10px 0; }
+.kid-chip, .tab, .btn { border: 0; border-radius: 999px; padding: 10px 14px; background: var(--card2); color: var(--text); }
+.kid-chip.on, .tab.on { background: var(--accent); }
+.btn.primary { background: var(--accent); width: 100%; margin-top: 8px; }
+.btn.danger { background: var(--danger); }
+.icon { font-size: 1.8rem; width: 2.2rem; text-align: center; }
+.task { display: flex; gap: 12px; align-items: center; }
+.task.done { opacity: .4; text-decoration: line-through; }
+.stars { color: var(--accent2); font-weight: 700; }
+.empty { text-align: center; padding: 36px 10px; color: var(--muted); }
+input, select { width: 100%; padding: 12px; border: 0; border-radius: 12px; margin: 6px 0 10px; background: #fff; color: #111; }
+.nav { position: fixed; left: 0; right: 0; bottom: 0; display: flex; background: #140f2c; padding: 10px 8px calc(10px + env(safe-area-inset-bottom)); }
+.nav button { flex: 1; background: transparent; color: var(--muted); border: 0; padding: 8px 4px; font-size: .8rem; }
+.nav button.on { color: #fff; }
+.firstthen { background: linear-gradient(180deg, #2a2158, #1a1633); }
+label { font-size: .85rem; color: var(--muted); }
+.hidden { display: none !important; }

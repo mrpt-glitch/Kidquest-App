@@ -1,6 +1,6 @@
-const CACHE = 'kidquest-v23';
+const CACHE = 'kidquest-v24';
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(['/', '/index.html', '/app.js'])).catch(()=>{}));
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(['/', '/index.html', '/main.js', '/styles.css'])).catch(()=>{}));
   self.skipWaiting();
 });
 self.addEventListener('activate', e => {
@@ -16,8 +16,4 @@ self.addEventListener('fetch', e => {
       return r;
     }).catch(() => caches.match(e.request))
   );
-});
-self.addEventListener('push', e => {
-  const d = e.data ? e.data.json() : {title:'KidQuest',body:'Approval needed!'};
-  e.waitUntil(self.registration.showNotification(d.title,{body:d.body,icon:'/icon-192.png',tag:'kidquest'}));
 });

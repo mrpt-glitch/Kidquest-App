@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>KidQuest Parent Editor</title>
+<style>
+body{margin:0;font-family:system-ui,sans-serif;background:#0C0A1E;color:#fff;padding:16px}
+input,textarea{width:100%;box-sizing:border-box;margin:4px 0 10px;padding:10px;border-radius:10px;border:0}
+.row{background:#1a1633;padding:12px;border-radius:14px;margin:10px 0}
+button{border:0;border-radius:12px;padding:10px 14px;background:#7c5cff;color:#fff;margin-right:8px}
+</style>
+</head>
+<body>
+<h1>Add / edit Oliver tasks</h1>
+<p>Mon–Fri only. Weekend left alone. Opens on phone.</p>
+<div id="rows"></div>
+<button onclick="add()">+ Add task</button>
+<button onclick="save()">Save</button>
+<p><a href="oliver.html" style="color:#b9a6ff">Open Oliver board</a></p>
+<script>
+const KEY='oliver-weekday-v1';
+let data={child:'Oliver',appliesTo:['monday','tuesday','wednesday','thursday','friday'],tasks:[]};
+async function init(){
+  const saved=localStorage.getItem(KEY);
+  if(saved) data=JSON.parse(saved);
+  else { const r=await fetch('data/oliver-weekday.json'); data=await r.json(); }
+  draw();
+}
+function draw(){
+  const box=document.getElementById('rows'); box.innerHTML='';
+  data.tasks.forEach((t,i)=>{
+    const d=document.createElement('div'); d.className='row';
+    d.innerHTML=`<input data-i="${i}" data-k="time" value="${t.time||''}" placeholder="Time"/>
+      <input data-i="${i}" data-k="icon" value="${t.icon||''}" placeholder="Emoji"/>
+      <input data-i="${i}" data-k="title" value="${t.title||''}" placeholder="Task"/>
+      <input data-i="${i}" data-k="goal" value="${t.goal||t.note||''}" placeholder="Goal / note"/>
+      <button onclick="del(${i})">Delete</button>`;
+    box.appendChild(d);
+  });
+  box.querySelectorAll('input').forEach(inp=>inp.oninput=e=>{
+    const i=+e.target.dataset.i,k=e.target.dataset.k; data.tasks[i][k]=e.target.value;
+  });
+}
+function add(){data.tasks.push({id:'t'+Date.now(),time:'',icon:'⭐',title:'New task',goal:''});draw();}
+function del(i){data.tasks.splice(i,1);draw();}
+function save(){localStorage.setItem(KEY,JSON.stringify(data));alert('Saved on this phone. Open oliver.html');}
+init();
+</script>
+</body>
+</html>

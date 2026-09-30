@@ -3,25 +3,23 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Oliver — First Then</title>
+<title>Oliver</title>
 <style>
 body{margin:0;font-family:system-ui,sans-serif;background:#0C0A1E;color:#fff;padding:16px}
-h1{font-size:1.4rem;margin:0 0 8px}
-.sub{opacity:.7;margin-bottom:16px}
 .card{background:#1a1633;border-radius:16px;padding:14px;margin:10px 0;display:flex;gap:12px;align-items:center}
-.icon{font-size:2rem}
-.done{opacity:.35;text-decoration:line-through}
+.icon{font-size:2rem}.done{opacity:.35;text-decoration:line-through}
 button{margin-left:auto;border:0;border-radius:999px;padding:8px 12px;background:#7c5cff;color:#fff}
-.star{color:#ffd76a}
+.empty{opacity:.6;padding:40px 0;text-align:center}a{color:#b9a6ff}
 </style>
 </head>
 <body>
-<h1>Oliver — First / Then</h1>
-<p class="sub">Monday–Friday only · 1 star per task</p>
+<h1>Oliver</h1>
+<p>First / Then · Mon–Fri</p>
 <div id="list"></div>
-<p class="star" id="stars"></p>
+<p class="empty" id="empty">No tasks yet. <a href="parent.html">Add tasks</a></p>
+<p id="stars"></p>
 <script>
-const KEY='oliver-weekday-v1';
+const KEY='oliver-weekday-v2';
 async function load(){
   const saved=localStorage.getItem(KEY);
   if(saved) return JSON.parse(saved);
@@ -29,21 +27,21 @@ async function load(){
   return res.json();
 }
 function render(data){
+  const tasks=data.tasks||[];
   const done=JSON.parse(localStorage.getItem(KEY+'-done')||'{}');
-  const list=document.getElementById('list');
-  list.innerHTML='';
-  data.tasks.forEach((t,i)=>{
-    const next=data.tasks[i+1];
+  const list=document.getElementById('list'); list.innerHTML='';
+  document.getElementById('empty').style.display=tasks.length?'none':'block';
+  tasks.forEach((t,i)=>{
+    const next=tasks[i+1];
     const el=document.createElement('div');
     el.className='card'+(done[t.id]?' done':'');
-    el.innerHTML=`<div class="icon">${t.icon}</div><div><b>FIRST: ${t.time} ${t.title}</b><div>${t.goal||t.note||''}</div>${next?`<div>THEN: ${next.icon} ${next.title}</div>`:''}</div><button>${done[t.id]?'Undo':'Done ⭐'}</button>`;
+    el.innerHTML=`<div class="icon">${t.icon||'⭐'}</div><div><b>FIRST: ${t.time||''} ${t.title||''}</b><div>${t.goal||t.note||''}</div>${next?`<div>THEN: ${next.icon||''} ${next.title||''}</div>`:''}</div><button>${done[t.id]?'Undo':'Done ⭐'}</button>`;
     el.querySelector('button').onclick=()=>{done[t.id]=!done[t.id];localStorage.setItem(KEY+'-done',JSON.stringify(done));render(data)};
     list.appendChild(el);
   });
-  const n=Object.values(done).filter(Boolean).length;
-  document.getElementById('stars').textContent='Stars: '+n;
+  document.getElementById('stars').textContent=tasks.length?('Stars: '+Object.values(done).filter(Boolean).length):'';
 }
-load().then(d=>{localStorage.setItem(KEY,JSON.stringify(d));render(d)});
+load().then(render);
 </script>
 </body>
 </html>

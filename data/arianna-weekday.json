@@ -1,0 +1,8 @@
+{
+  "child": "Arianna",
+  "appliesTo": ["monday", "tuesday", "wednesday", "thursday", "friday"],
+  "weekend": "unmodified",
+  "tokenOnComplete": 1,
+  "layout": "first-then",
+  "tasks": []
+}

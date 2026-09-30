@@ -1,0 +1,27 @@
+{
+  "child": "Oliver",
+  "appliesTo": ["monday", "tuesday", "wednesday", "thursday", "friday"],
+  "weekend": "unmodified",
+  "tokenOnComplete": 1,
+  "layout": "first-then",
+  "tasks": [
+    { "id": "wake", "time": "06:30", "title": "Wake up", "icon": "🌅" },
+    { "id": "shower", "time": "06:40", "title": "Take a shower", "icon": "🚿" },
+    { "id": "breakfast", "time": "07:00", "title": "Breakfast", "icon": "🥣" },
+    { "id": "teeth", "time": "07:20", "title": "Brush teeth", "icon": "🪥", "after": "breakfast" },
+    { "id": "ready", "time": "08:00", "title": "Fully ready", "icon": "✅" },
+    { "id": "leave", "time": "08:15", "title": "Leave for school", "icon": "🚌" },
+    { "id": "school", "time": "08:15-16:10", "title": "School block", "icon": "🏫", "note": "School ends 3:20. Home 4:10." },
+    { "id": "dinner", "time": "16:15", "title": "Dinner", "icon": "🍽️" },
+    { "id": "chore-table", "time": "16:30", "title": "Clean the table", "icon": "🧽" },
+    { "id": "chore-room", "time": "16:45", "title": "Clean his room", "icon": "🧹" },
+    { "id": "chore-benny", "time": "17:00", "title": "Take Benny out", "icon": "🐕" },
+    { "id": "chore-trash", "time": "17:15", "title": "Throw the garbage out", "icon": "🗑️" },
+    { "id": "lang", "time": "17:30", "title": "Language warm-up", "icon": "🗣️", "mins": 15, "goal": "Portuguese / Spanish / English" },
+    { "id": "spelling", "time": "17:45", "title": "Spelling Bee practice", "icon": "🐝", "mins": 15, "goal": "New daily task" },
+    { "id": "reading", "time": "18:00", "title": "Reading", "icon": "📖", "mins": 30, "goal": "Read 60% of the page" },
+    { "id": "math", "time": "18:30", "title": "Math", "icon": "🔢", "mins": 20, "goal": "Answer 10 questions (Aim for 7 correct)" },
+    { "id": "break", "time": "18:50", "title": "Plushie / tablet break", "icon": "🧸", "mins": 20, "goal": "Spend tokens" },
+    { "id": "bed", "time": "20:00", "title": "Bedtime prep", "icon": "🌙" }
+  ]
+}

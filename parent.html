@@ -3,28 +3,45 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>KidQuest Parent Editor</title>
+<title>Add tasks</title>
 <style>
 body{margin:0;font-family:system-ui,sans-serif;background:#0C0A1E;color:#fff;padding:16px}
-input,textarea{width:100%;box-sizing:border-box;margin:4px 0 10px;padding:10px;border-radius:10px;border:0}
+select,input{width:100%;box-sizing:border-box;margin:4px 0 10px;padding:12px;border-radius:10px;border:0;font-size:16px}
 .row{background:#1a1633;padding:12px;border-radius:14px;margin:10px 0}
-button{border:0;border-radius:12px;padding:10px 14px;background:#7c5cff;color:#fff;margin-right:8px}
+button{border:0;border-radius:12px;padding:10px 14px;background:#7c5cff;color:#fff;margin:6px 8px 6px 0}
+.empty{opacity:.6;padding:24px 0}
+a{color:#b9a6ff}
 </style>
 </head>
 <body>
-<h1>Add / edit Oliver tasks</h1>
-<p>Mon–Fri only. Weekend left alone. Opens on phone.</p>
+<h1>Add tasks</h1>
+<p>Clean boards. Mon–Fri only.</p>
+<label>Who</label>
+<select id="kid" onchange="switchKid()">
+  <option value="oliver">Oliver</option>
+  <option value="arianna">Arianna</option>
+</select>
 <div id="rows"></div>
+<p class="empty" id="empty">No tasks yet. Tap Add task.</p>
 <button onclick="add()">+ Add task</button>
 <button onclick="save()">Save</button>
-<p><a href="oliver.html" style="color:#b9a6ff">Open Oliver board</a></p>
+<p><a id="boardLink" href="oliver.html">Open board</a></p>
 <script>
-const KEY='oliver-weekday-v1';
+const FILES={oliver:'data/oliver-weekday.json',arianna:'data/arianna-weekday.json'};
+const NAMES={oliver:'Oliver',arianna:'Arianna'};
+let kid='oliver';
 let data={child:'Oliver',appliesTo:['monday','tuesday','wednesday','thursday','friday'],tasks:[]};
-async function init(){
-  const saved=localStorage.getItem(KEY);
+function key(){return kid+'-weekday-v2';}
+async function switchKid(){
+  kid=document.getElementById('kid').value;
+  document.getElementById('boardLink').href=kid+'.html';
+  const saved=localStorage.getItem(key());
   if(saved) data=JSON.parse(saved);
-  else { const r=await fetch('data/oliver-weekday.json'); data=await r.json(); }
+  else {
+    try{const r=await fetch(FILES[kid]); data=await r.json();}
+    catch(e){data={child:NAMES[kid],appliesTo:['monday','tuesday','wednesday','thursday','friday'],tasks:[]};}
+  }
+  if(!data.tasks) data.tasks=[];
   draw();
 }
 function draw(){
@@ -39,13 +56,14 @@ function draw(){
     box.appendChild(d);
   });
   box.querySelectorAll('input').forEach(inp=>inp.oninput=e=>{
-    const i=+e.target.dataset.i,k=e.target.dataset.k; data.tasks[i][k]=e.target.value;
+    data.tasks[+e.target.dataset.i][e.target.dataset.k]=e.target.value;
   });
+  document.getElementById('empty').style.display=data.tasks.length?'none':'block';
 }
-function add(){data.tasks.push({id:'t'+Date.now(),time:'',icon:'⭐',title:'New task',goal:''});draw();}
+function add(){data.tasks.push({id:'t'+Date.now(),time:'',icon:'⭐',title:'',goal:''});draw();}
 function del(i){data.tasks.splice(i,1);draw();}
-function save(){localStorage.setItem(KEY,JSON.stringify(data));alert('Saved on this phone. Open oliver.html');}
-init();
+function save(){localStorage.setItem(key(),JSON.stringify(data));alert('Saved for '+NAMES[kid]);}
+switchKid();
 </script>
 </body>
 </html>
